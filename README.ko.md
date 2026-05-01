@@ -22,7 +22,7 @@
 
 <p align="center">
   <a href="https://claude.ai"><img src="https://img.shields.io/badge/Open%20in-Claude.ai-D97757?style=for-the-badge" alt="Open in Claude.ai"></a>
-  <a href="https://codespaces.new/samejima-ai/council"><img src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces"></a>
+  <a href="https://codespaces.new/samejima-ai/council-jp"><img src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces"></a>
 </p>
 
 > 사용자의 일회성 고민·갈등·선택의 기로에 대해, 주제와 상황에 따라 동적으로 선정된 3페르소나의 협의로 다각적 의견을 제시하는 의사결정 지원 스킬.
@@ -117,7 +117,7 @@ council/
 
 ```bash
 # 1. 스킬 디렉터리에 클론
-git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council-jp
+git clone https://github.com/samejima-ai/council-jp.git ~/.claude/skills/council-jp
 
 # 2. Claude Code를 시작하고 council을 호출 (자동 인식됨)
 ```

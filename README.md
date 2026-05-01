@@ -22,7 +22,7 @@
 
 <p align="center">
   <a href="https://claude.ai"><img src="https://img.shields.io/badge/Open%20in-Claude.ai-D97757?style=for-the-badge" alt="Open in Claude.ai"></a>
-  <a href="https://codespaces.new/samejima-ai/council"><img src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces"></a>
+  <a href="https://codespaces.new/samejima-ai/council-jp"><img src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces"></a>
 </p>
 
 > ユーザーの単発の迷い・悩み・選択の岐路に対し、テーマ・状況に応じて選定された3ペルソナによる合議制で多角的意見を提示する意思判断支援SK。
@@ -115,7 +115,7 @@ council/
 
 ```bash
 # 1. リポジトリをクローン
-git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council-jp
+git clone https://github.com/samejima-ai/council-jp.git ~/.claude/skills/council-jp
 
 # 2. Claude Code を起動して「councilで〇〇」と話しかける（自動認識される）
 ```

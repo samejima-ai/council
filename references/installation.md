@@ -64,7 +64,7 @@ cp -r examples/* .claude/skills/council-jp/examples/
 ユーザーグローバルに置く場合：
 
 ```bash
-git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council-jp
+git clone https://github.com/samejima-ai/council-jp.git ~/.claude/skills/council-jp
 ```
 
 ### 自動認識

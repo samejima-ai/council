@@ -22,7 +22,7 @@
 
 <p align="center">
   <a href="https://claude.ai"><img src="https://img.shields.io/badge/Abrir%20en-Claude.ai-D97757?style=for-the-badge" alt="Abrir en Claude.ai"></a>
-  <a href="https://codespaces.new/samejima-ai/council"><img src="https://github.com/codespaces/badge.svg" alt="Abrir en GitHub Codespaces"></a>
+  <a href="https://codespaces.new/samejima-ai/council-jp"><img src="https://github.com/codespaces/badge.svg" alt="Abrir en GitHub Codespaces"></a>
 </p>
 
 > Una skill que responde a un dilema puntual o encrucijada del usuario con opiniones desde múltiples ángulos, presentadas por tres personas seleccionadas dinámicamente según el tema y la situación.
@@ -117,7 +117,7 @@ council/
 
 ```bash
 # 1. Clona en tu directorio de skills
-git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council-jp
+git clone https://github.com/samejima-ai/council-jp.git ~/.claude/skills/council-jp
 
 # 2. Inicia Claude Code y pide usar el consejo (se detecta automáticamente)
 ```
