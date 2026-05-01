@@ -117,12 +117,12 @@ council/
 
 ```bash
 # 1. Clone into your skills directory
-git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council
+git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council-jp
 
 # 2. Start Claude Code and ask it to use the council (auto-detected)
 ```
 
-For project-local installs, place the contents under `<project>/.claude/skills/council/`.
+For project-local installs, place the contents under `<project>/.claude/skills/council-jp/`.
 
 See [`references/installation.md`](references/installation.md) for full details.
 
@@ -146,17 +146,92 @@ See [`references/installation.md`](references/installation.md) for full details.
 | Genuine emergencies (life-threatening, etc.) | ❌ contact professionals |
 | Fact-checking / search | ❌ use web search etc. |
 
+### Example prompts
+
+What users actually type:
+
+```
+Use the council — I'm 32 and considering a career change.
+Salary's stable here, but I'm not growing. I have a family
+and don't want to overshoot on risk.
+```
+
+```
+Convene a council on this. My partner and I (we live together)
+are drifting on values. Should I leave, or stay longer?
+```
+
+```
+I want multi-angle opinions. I have $30k from an investment.
+Should I bootstrap a business with it, or pay down the mortgage?
+```
+
+```
+Use the council. There's family pressure to move closer to my
+elderly parent, but I'm worried about my career. Help me think.
+```
+
+Triggers fire from English (e.g. `use the council to...`) as well as the original Japanese (「councilで」「合議して」 etc.) — Claude's semantic matching covers both.
+
+---
+
+## Why pick this one?
+
+The "Multi-Persona Council" space on Claude is getting crowded. Here's an honest comparison so you can pick the right tool.
+
+### The typical approach in this space
+
+- A fixed roster of 7–18 personas, all summoned every time
+- Main use case: technical decisions (code review / architecture / strategy)
+- Outputs a "verdict"
+- Implemented as Claude Code sub-agents
+- English-first
+
+### Council SK's stance
+
+| Axis | Typical approach | Council SK (`council-jp`) |
+|---|---|---|
+| Persona selection | N personas, fixed | **3 dynamically picked from a pool of 5** (topic-aware) |
+| Main use case | technical decisions | **personal life decisions** (career / relationships / money / ethics) |
+| Conclusion stance | hands you a verdict | **strict neutrality** (no pushed answer) |
+| Independence | not usually addressed | **blind selection** (personas don't know who else was picked) |
+| Execution modes | single mode | **light + heavy** (heavy runs physically isolated in Claude.ai Artifacts) |
+| Evaluation axes | free-form | **R/R/A** (Regret / Reversibility / Alignment) |
+| Absent personas | dropped | **JUDGE speaks for them** in a Minority Report |
+| Primary language | English | **Japanese-first** (with multilingual READMEs) |
+
+### Related projects
+
+- [itshussainsprojects/Claude-Council-Skill](https://github.com/itshussainsprojects/Claude-Council-Skill) — 7 personas, personal-decision oriented (closest in spirit)
+- [0xNyk/council-of-high-intelligence](https://github.com/0xNyk/council-of-high-intelligence) — 18 personas (Aristotle, Feynman, Kahneman, etc.), multi-LLM provider
+- [tsenart/council-skill](https://github.com/tsenart/council-skill) — portable across Codex / Claude Code / Amp
+- [wan-huiyan/agent-review-panel](https://github.com/wan-huiyan/agent-review-panel) — adversarial panel for code/plan review
+
+This space is active and the field will keep growing. Council SK (`council-jp`) earns its niche through the combination of **personal-life focus × strict neutrality × dual-mode × Japanese-first**.
+
 ---
 
 ## Design philosophy
 
-### Why a council?
+### Why "few and biased" — the core thesis
+
+A council should be done with **the smallest number of sharply-characterized members**.
+
+What matters is **deliberation by biased opinions**, not majority vote.
+
+Human councils crystallize wisdom by aggregating multiple perspectives via majority decision. But mapping that structure onto AI does not extract the best answer.
+
+**The way to extract the best from AI is to take condensed, biased perspectives, slam them head-on, and let them be sublated (Aufhebung / 止揚)** — this is Council SK's core thesis.
+
+That's why Council SK does not "line up many personas to reach consensus." Instead it deliberately collides **a small number of sharp viewpoints and lets JUDGE perform the sublation**.
+
+3-from-5 dynamic selection / 2-primary + 1-supporting / blind selection / R/R/A axes — every design choice is derived from this single thesis.
+
+### Why a council at all?
 
 Single-perspective decisions always leave blind spots. Important decisions have historically been routed through multi-checker structures — parliaments, boards, panels of judges. As LLMs enter personal decision support, this structure should be carried forward.
 
-### Why 3 personas, not 5?
-
-Summoning all 5 every time is ideal but costly in API calls and cognitive load. **3 personas (2 primary + 1 supporting)** is the smallest configuration that preserves opposing axes while staying affordable. JUDGE represents the 2 absent ones in a Minority Report, simulating 5-persona breadth.
+But AI deliberation is structurally not the same as human deliberation — see the "core thesis" above.
 
 ### Why don't personas know who else was picked?
 

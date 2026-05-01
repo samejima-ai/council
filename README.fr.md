@@ -117,12 +117,12 @@ council/
 
 ```bash
 # 1. Cloner dans votre répertoire de skills
-git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council
+git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council-jp
 
 # 2. Démarrer Claude Code et demander d'utiliser le conseil (détection automatique)
 ```
 
-Pour une installation locale au projet, placez le contenu sous `<projet>/.claude/skills/council/`.
+Pour une installation locale au projet, placez le contenu sous `<projet>/.claude/skills/council-jp/`.
 
 Voir [`references/installation.md`](references/installation.md) pour les détails complets.
 
@@ -146,17 +146,93 @@ Voir [`references/installation.md`](references/installation.md) pour les détail
 | Urgences réelles (danger vital, etc.) | ❌ contactez des professionnels |
 | Vérification de faits / recherche | ❌ utilisez la recherche web, etc. |
 
+### Exemples de prompts
+
+Ce que les utilisateurs tapent en pratique :
+
+```
+Utilise le conseil — j'ai 32 ans et j'envisage une réorientation
+professionnelle. Le salaire est stable mais je ne progresse plus.
+J'ai une famille, je ne veux pas trop prendre de risques.
+```
+
+```
+Convoque le conseil. Mon partenaire et moi (nous vivons ensemble)
+ressentons un écart de valeurs. Faut-il rompre, ou continuer ?
+```
+
+```
+Je veux des avis multi-angles. J'ai 30 000 € d'un investissement.
+Les utiliser pour me lancer, ou rembourser le prêt immobilier ?
+```
+
+```
+Utilise le conseil. Pression familiale pour me rapprocher d'un
+parent âgé, mais je m'inquiète pour ma carrière. Aide-moi à
+peser la décision.
+```
+
+Les déclencheurs fonctionnent en français (p. ex. « utilise le conseil ») comme en japonais d'origine (「councilで」「合議して」 etc.) — la correspondance sémantique de Claude couvre les deux.
+
+---
+
+## Pourquoi celle-ci ?
+
+L'espace « Multi-Persona Council » sur Claude se densifie. Voici une comparaison honnête pour aider au choix.
+
+### L'approche typique de cet espace
+
+- Un casting fixe de 7 à 18 personas, convoqué à chaque fois
+- Cas d'usage principal : décisions techniques (revue de code / architecture / stratégie)
+- Produit un « verdict »
+- Implémenté comme sous-agents Claude Code
+- Anglais d'abord
+
+### La position de Council SK
+
+| Axe | Approche typique | Council SK (`council-jp`) |
+|---|---|---|
+| Sélection des personas | N personas, fixe | **3 choisis dynamiquement dans un pool de 5** (selon le sujet) |
+| Cas d'usage principal | décisions techniques | **décisions de vie personnelles** (carrière / relations / argent / éthique) |
+| Posture de conclusion | livre un verdict | **neutralité stricte** (pas de réponse imposée) |
+| Indépendance | rarement traitée | **sélection aveugle** (les personas ignorent qui d'autre a été choisi) |
+| Modes d'exécution | mode unique | **léger + intensif** (le mode intensif tourne en isolation physique dans les Artifacts Claude.ai) |
+| Axes d'évaluation | libre | **R/R/A** (Regret / Reversibility / Alignment) |
+| Personas absents | écartés | **JUDGE parle pour eux** dans un Minority Report |
+| Langue principale | anglais | **japonais d'abord** (avec READMEs multilingues) |
+
+### Projets liés
+
+- [itshussainsprojects/Claude-Council-Skill](https://github.com/itshussainsprojects/Claude-Council-Skill) — 7 personas, orienté décisions personnelles (l'esprit le plus proche)
+- [0xNyk/council-of-high-intelligence](https://github.com/0xNyk/council-of-high-intelligence) — 18 personas (Aristote, Feynman, Kahneman, etc.), fournisseur multi-LLM
+- [tsenart/council-skill](https://github.com/tsenart/council-skill) — portable entre Codex / Claude Code / Amp
+- [wan-huiyan/agent-review-panel](https://github.com/wan-huiyan/agent-review-panel) — panel adversarial pour revue de code/plans
+
+L'espace est actif et continuera de croître. Council SK (`council-jp`) défend sa niche par la combinaison **focus-vie-personnelle × neutralité-stricte × double-mode × japonais-d'abord**.
+
 ---
 
 ## Philosophie de conception
 
-### Pourquoi un conseil ?
+### Pourquoi « peu et biaisés » — la thèse centrale
+
+Un conseil doit se tenir avec **le plus petit nombre possible de membres aux traits fortement marqués**.
+
+Ce qu'il faut, c'est **une délibération par opinions biaisées**, pas un vote majoritaire.
+
+Les conseils humains cristallisent la sagesse en agrégeant des perspectives multiples via la majorité. Mais transposer cette structure à l'IA n'en extrait pas la meilleure réponse.
+
+**La manière d'extraire le meilleur d'une IA est de faire entrer en collision frontale des perspectives condensées et biaisées, et de les laisser être relevées (Aufhebung / 止揚)** — c'est la thèse centrale de Council SK.
+
+C'est pourquoi Council SK n'« aligne pas plein de personas pour atteindre un consensus ». À la place, il fait délibérément s'entrechoquer **un petit nombre de points de vue tranchés et laisse JUDGE opérer la relève**.
+
+Sélection 3-sur-5 / 2-principaux + 1-d'appui / sélection aveugle / axes R/R/A — chaque choix de conception découle de cette unique thèse.
+
+### Pourquoi un conseil tout court ?
 
 Les décisions à perspective unique laissent toujours des angles morts. Historiquement, les décisions importantes ont été acheminées via des structures à multiples vérificateurs — parlements, conseils d'administration, panels de juges. À mesure que les LLM entrent dans l'aide à la décision personnelle, cette structure devrait être conservée.
 
-### Pourquoi 3 personas et non 5 ?
-
-Convoquer les 5 à chaque fois est idéal mais coûteux en appels API et en charge cognitive. **3 personas (2 principaux + 1 d'appui)** est la configuration minimale qui préserve les axes opposés tout en restant abordable. JUDGE représente les 2 absents dans un Minority Report, simulant l'envergure des 5.
+Mais la délibération de l'IA est structurellement différente de la délibération humaine — voir la « thèse centrale » ci-dessus.
 
 ### Pourquoi les personas ne savent-ils pas qui d'autre a été choisi ?
 

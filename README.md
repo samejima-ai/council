@@ -115,12 +115,12 @@ council/
 
 ```bash
 # 1. リポジトリをクローン
-git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council
+git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council-jp
 
 # 2. Claude Code を起動して「councilで〇〇」と話しかける（自動認識される）
 ```
 
-または プロジェクトローカルに置く場合は `<project>/.claude/skills/council/` 以下に配置。
+または プロジェクトローカルに置く場合は `<project>/.claude/skills/council-jp/` 以下に配置。
 
 詳細は [`references/installation.md`](references/installation.md) を参照。
 
@@ -144,9 +144,86 @@ git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council
 | 緊急性が極めて高い判断（命に関わる等） | ❌ 専門機関推奨 |
 | 事実確認・情報検索 | ❌ web検索等を使うべき |
 
+### 使用例（具体的なプロンプト）
+
+ユーザーが Claude に投げる例：
+
+```
+councilで 30歳での転職について相談したい。
+今の会社は安定してるけど、もっと成長を感じたい気持ちがある。
+ただし家族がいてリスクは取りすぎたくない。
+```
+
+```
+合議して欲しい。同棲中の恋人と価値観のズレを感じる。
+別れるべきか、もう少し続けるべきか分からない。
+```
+
+```
+多角的に意見が欲しい。投資で得た300万を、起業資金にするか
+住宅ローン繰上返済に使うか、迷っている。
+```
+
+```
+councilで考えて。親の介護で実家近くへ引っ越す圧力があるが、
+仕事のキャリアと両立できるか不安。
+```
+
+トリガーは日本語の「councilで」「合議して」等のほか、英語で `use the council to...` でも発火します（Claude のセマンティックマッチング）。
+
+---
+
+## 類似スキルとの違い
+
+「合議制 / Multi-Persona Council」は Claude スキルでも参入が増えている領域。Council SK (`council-jp`) を選ぶ理由を正直に整理する。
+
+### このスペースで一般的な傾向
+
+- 7〜18 名の固定ペルソナを毎回フル召喚
+- 主用途は技術判断（コードレビュー / アーキテクチャ / 戦略決定）
+- "Verdict"（評決）を出す
+- Claude Code のサブエージェント機能で並列実行
+- 英語ファースト
+
+### Council SK のポジション
+
+| 軸 | 一般的なアプローチ | Council SK (`council-jp`) |
+|---|---|---|
+| ペルソナ選定 | N人固定召喚 | **5プールから3動的選定**（テーマ・状況依存） |
+| 主用途 | 技術判断中心 | **個人の人生判断**（キャリア・人間関係・金銭・倫理） |
+| 結論スタンス | 評決を提示 | **中立堅持**（押し付けない） |
+| 独立性保全 | 通常は考慮されない | **盲選定**（誰が他に選ばれたかを当人に伏せる） |
+| 実行モード | 単一モード | **軽量＋重量の二モード**（重量は Claude.ai Artifact で物理独立並列） |
+| 評価軸 | 自由形式 | **R/R/A**（Regret / Reversibility / Alignment） |
+| 不在ペルソナ | 切り捨て | **JUDGE が代弁**（マイノリティレポート） |
+| 主言語 | 英語 | **日本語ファースト**（多言語 README で導線） |
+
+### 関連プロジェクト（参考）
+
+- [itshussainsprojects/Claude-Council-Skill](https://github.com/itshussainsprojects/Claude-Council-Skill) — 7名固定、個人意思決定向け（思想が最も近い）
+- [0xNyk/council-of-high-intelligence](https://github.com/0xNyk/council-of-high-intelligence) — 18名固定、Aristotle / Feynman / Kahneman 等、マルチ LLM プロバイダ
+- [tsenart/council-skill](https://github.com/tsenart/council-skill) — Codex / Claude Code / Amp 横断ポータブル council
+- [wan-huiyan/agent-review-panel](https://github.com/wan-huiyan/agent-review-panel) — コード/プランレビュー特化の adversarial panel
+
+このスペースは活発で競合は今後も増える。Council SK (`council-jp`) が差別化を主張できるのは **「個人の人生判断 × 中立堅持 × 二モード × 日本語ファースト」** の組み合わせ。
+
 ---
 
 ## 思想的背景
+
+### 設計哲学 — なぜ「偏った少数」なのか
+
+合議は、**特性を絞った最小数**で行うべきだ。
+
+必要なのは**偏った意見による合議**であって、多数決ではない。
+
+人間の合議は、複数人が衆知を持ち寄り多数決で結晶化させる仕組みである。しかし AI にこの構造をそのまま当てはめても、最良の答えは引き出せない。
+
+**AI から最良を引き出すのは、凝縮された偏った視点を真正面からぶつけ、止揚（アウフヘーベン）させるプロセスである** ── これが Council SK の中核仮説である。
+
+だから Council SK は「多数のペルソナを並べて合意を取る」設計を採らない。「**少数の鋭い視点を意図的に対立させ、JUDGE に止揚させる**」設計を採る。
+
+5 プールから 3 名（主軸 2 + 補助 1）／ 盲選定 ／ R/R/A 評価 ── これらすべては、この一つの仮説から導かれている。
 
 ### なぜ「合議制」なのか
 
@@ -154,12 +231,7 @@ git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council
 歴史的に重要な判断は議会・取締役会・裁判官合議など、複数視点による検証構造を持ってきた。
 LLMが個人の意思決定支援に入る時、この構造を引き継ぐべきという考えに基づく。
 
-### なぜ「3ペルソナ」なのか
-
-5ペルソナ全員召喚は理想だが、API呼び出し回数とユーザー認知負荷が大きい。
-**3名（主軸2 + 補助1）**は対立軸を保ちつつコスパを実現する最小構成。
-
-不在2名はJUDGEが代弁することで、5ペルソナ相当の多角性を擬似的に確保する。
+ただし AI における合議は人間のそれとは構造的に異なる ── 上記「設計哲学」を参照。
 
 ### なぜ「選定理由はペルソナに非開示」なのか
 

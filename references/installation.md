@@ -48,15 +48,23 @@
 
 ### 配置
 
+スキル識別子は `council-jp` （SKILL.md frontmatter の `name`）。Claude Code が認識するディレクトリ名と一致させる。
+
 ```bash
-# プロジェクトルート直下に .claude/skills/council/ を作成
-mkdir -p .claude/skills/council/references
-mkdir -p .claude/skills/council/examples
+# プロジェクトルート直下に .claude/skills/council-jp/ を作成
+mkdir -p .claude/skills/council-jp/references
+mkdir -p .claude/skills/council-jp/examples
 
 # このリポジトリの内容をコピー
-cp SKILL.md .claude/skills/council/
-cp -r references/* .claude/skills/council/references/
-cp -r examples/* .claude/skills/council/examples/
+cp SKILL.md .claude/skills/council-jp/
+cp -r references/* .claude/skills/council-jp/references/
+cp -r examples/* .claude/skills/council-jp/examples/
+```
+
+ユーザーグローバルに置く場合：
+
+```bash
+git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council-jp
 ```
 
 ### 自動認識

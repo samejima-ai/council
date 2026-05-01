@@ -117,12 +117,12 @@ council/
 
 ```bash
 # 1. 스킬 디렉터리에 클론
-git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council
+git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council-jp
 
 # 2. Claude Code를 시작하고 council을 호출 (자동 인식됨)
 ```
 
-프로젝트 로컬 설치의 경우 `<project>/.claude/skills/council/` 아래에 배치합니다.
+프로젝트 로컬 설치의 경우 `<project>/.claude/skills/council-jp/` 아래에 배치합니다.
 
 자세한 내용은 [`references/installation.md`](references/installation.md)를 참조하세요.
 
@@ -146,9 +146,86 @@ git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council
 | 긴급성이 매우 높은 판단 (생명에 관한 등) | ❌ 전문 기관 권장 |
 | 사실 확인·정보 검색 | ❌ 웹 검색 등을 사용해야 함 |
 
+### 사용 예 (구체적 프롬프트)
+
+사용자가 Claude에게 실제로 던지는 예:
+
+```
+council로 30대의 이직에 대해 상담하고 싶어.
+지금 회사는 안정적이지만 성장이 느껴지지 않아.
+다만 가족이 있어서 리스크는 너무 키우고 싶지 않아.
+```
+
+```
+협의해 줘. 동거 중인 연인과 가치관의 어긋남이 느껴져.
+헤어져야 할지, 좀 더 이어가야 할지 모르겠어.
+```
+
+```
+다각적 의견이 필요해. 투자로 얻은 300만을 창업 자금으로 쓸지,
+주택 대출 조기 상환에 쓸지 망설이고 있어.
+```
+
+```
+council로 생각해 줘. 부모 간병으로 본가 근처로 이사하라는 압박이 있는데,
+일의 커리어와 양립할 수 있을지 불안해.
+```
+
+트리거는 일본어 「councilで」「合議して」 외에, 한국어 "council로", "협의해 줘" 등으로도 발화합니다 (Claude의 의미 매칭).
+
+---
+
+## 유사 스킬과의 차이
+
+"협의제 / Multi-Persona Council"은 Claude 스킬 중에서도 참여가 늘고 있는 영역입니다. Council SK (`council-jp`)를 선택할 이유를 솔직하게 정리합니다.
+
+### 이 영역에서 일반적인 경향
+
+- 7~18명의 고정 페르소나를 매번 풀 호출
+- 주 용도는 기술 판단 (코드 리뷰 / 아키텍처 / 전략 결정)
+- "Verdict"(평결)을 제시
+- Claude Code의 서브 에이전트 기능으로 병렬 실행
+- 영어 우선
+
+### Council SK의 포지션
+
+| 축 | 일반적인 접근 | Council SK (`council-jp`) |
+|---|---|---|
+| 페르소나 선정 | N명 고정 호출 | **5풀에서 3명 동적 선정** (주제·상황 의존) |
+| 주 용도 | 기술 판단 중심 | **개인의 인생 판단** (커리어·인간관계·금전·윤리) |
+| 결론 자세 | 평결 제시 | **중립 견지** (강요하지 않음) |
+| 독립성 보전 | 통상 고려되지 않음 | **맹선정** (다른 누가 선정되었는지 본인에게 비공개) |
+| 실행 모드 | 단일 모드 | **경량 + 중량의 두 모드** (중량은 Claude.ai Artifact에서 물리적 독립 병렬) |
+| 평가축 | 자유 형식 | **R/R/A** (Regret / Reversibility / Alignment) |
+| 부재 페르소나 | 버려짐 | **JUDGE가 대변** (마이너리티 리포트) |
+| 주언어 | 영어 | **일본어 우선** (다국어 README로 도입선) |
+
+### 관련 프로젝트 (참고)
+
+- [itshussainsprojects/Claude-Council-Skill](https://github.com/itshussainsprojects/Claude-Council-Skill) — 7명 고정, 개인 의사결정 지향 (사상이 가장 가까움)
+- [0xNyk/council-of-high-intelligence](https://github.com/0xNyk/council-of-high-intelligence) — 18명 고정, 아리스토텔레스 / 파인만 / 카너먼 등, 멀티 LLM 프로바이더
+- [tsenart/council-skill](https://github.com/tsenart/council-skill) — Codex / Claude Code / Amp 횡단 포터블 council
+- [wan-huiyan/agent-review-panel](https://github.com/wan-huiyan/agent-review-panel) — 코드/플랜 리뷰 특화의 adversarial panel
+
+이 영역은 활발하고 경쟁은 앞으로도 늘어날 전망입니다. Council SK (`council-jp`)가 차별화를 주장할 수 있는 것은 **"개인 인생 판단 × 중립 견지 × 두 모드 × 일본어 우선"** 의 조합입니다.
+
 ---
 
 ## 사상적 배경
+
+### 설계 철학 — 왜 "편향된 소수"인가
+
+협의는 **특성을 좁힌 최소 인원**으로 해야 한다.
+
+필요한 것은 **편향된 의견에 의한 협의**이지, 다수결이 아니다.
+
+인간의 협의는 다수가 중지를 모아 다수결로 지혜를 결정화하는 구조이다. 그러나 AI에 이 구조를 그대로 적용해도 최선의 답은 끌어낼 수 없다.
+
+**AI에서 최선을 끌어내는 것은, 응축된 편향된 시점을 정면으로 부딪치게 하고, 지양 (止揚 / Aufhebung)시키는 과정이다** ── 이것이 Council SK의 핵심 가설이다.
+
+그래서 Council SK는 "다수의 페르소나를 늘어놓고 합의를 얻는" 설계를 취하지 않는다. "**소수의 날카로운 시점을 의도적으로 대립시키고, JUDGE에게 지양시키는**" 설계를 취한다.
+
+5풀에서 3명 (주축 2 + 보조 1) / 맹선정 / R/R/A 평가 ── 이 모든 것은 이 하나의 가설에서 도출되었다.
 
 ### 왜 "협의제"인가
 
@@ -156,12 +233,7 @@ git clone https://github.com/samejima-ai/council.git ~/.claude/skills/council
 역사적으로 중요한 판단은 의회·이사회·합의제 재판부 등 복수 시점에 의한 검증 구조를 가져왔습니다.
 LLM이 개인의 의사결정 지원에 들어올 때 이 구조를 계승해야 한다는 생각에 기반합니다.
 
-### 왜 "3페르소나"인가
-
-5페르소나 전원 호출은 이상적이지만 API 호출 횟수와 사용자 인지 부하가 큽니다.
-**3명 (주축 2 + 보조 1)**은 대립축을 유지하면서 비용 효율을 실현하는 최소 구성입니다.
-
-부재 2명은 JUDGE가 대변함으로써 5페르소나 상당의 다각성을 의사적으로 확보합니다.
+다만 AI에서의 협의는 인간의 그것과 구조적으로 다릅니다 ── 위의 "설계 철학"을 참조.
 
 ### 왜 "선정 이유는 페르소나에게 비공개"인가
 
